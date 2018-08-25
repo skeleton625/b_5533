@@ -1,35 +1,25 @@
-#include <iostream>
-#include <string.h>
-using namespace std;
+#include <cstdio>
 
-int t, **n, *p, *z, c;
-bool tmp[101];
+int p[200], n[200][3], c, t;
+bool f;
 int main() {
-	cin >> t;
-	n = new int*[t];
-	p = new int[t];
-	z = new int[t];
-	memset(p, 0, sizeof(int)*t);
-	for (int i = 0; i < t; i++) n[i] = new int[3];
-	for (int i = 0; i < t; i++) {
-		for (int j = 0; j < 3; j++) cin >> n[i][j];
-	}
+	scanf_s("%d", &t);
+	for (int i = 0; i < t; i++)
+		scanf_s("%d %d %d", &n[i][0], &n[i][1], &n[i][2]);
 	for (int i = 0; i < 3; i++) {
 		for (int j = 0; j < t; j++) {
-			if (!tmp[n[j][i]]) tmp[n[j][i]] = true;
-			else z[c++] = n[j][i];
-		}
-		for (int j = 0; j < t; j++) {
-			for (int k = 0; k <= c; k++){
-				tmp[n[j][i]] = false;
-				if (z[k] == n[j][i]) {
-					n[j][i] = 0;
+			for (int k = 0; k < t; k++) {
+				if (j == k) continue;
+				else if (n[j][i] == n[k][i]) {
+					f = true;
 					break;
 				}
 			}
-			p[j] += n[j][i];
+			if(!f) p[j] += n[j][i];
+			f = false;
 		}
 		c = 0;
 	}
-	for (int i = 0; i < t; i++) cout << p[i] << endl;
+	for (int i = 0; i < t; i++) printf("%d\n", p[i]);
+	return 0;
 }
